@@ -15,7 +15,20 @@ const API_BASE_URL = 'https://api.nobelprize.org/2.1';
  * @param {Function} onError - Callback for fetch errors
  */
 export function fetchNobelPrizes(filters = {}, onSuccess, onError) {
-  let url = ''; // TODO Construct the full URL with query parameters;
+//let url = ''; // TODO Construct the full URL with query parameters;
+  const params = new URLSearchParams();
+
+  params.append('offset', filters.offset);
+  params.append('limit', filters.limit);
+  params.append('sort', 'desc');
+
+  if (filters.year !== 'all') {
+  params.append('nobelPrizeYear', filters.year);
+}
+if (filters.category !== 'all') {
+  params.append('nobelPrizeCategory', filters.category);
+}
+const url = `${API_BASE_URL}/nobelPrizes?${params.toString()}`
 
   fetchData(url, onSuccess, onError);
 }
